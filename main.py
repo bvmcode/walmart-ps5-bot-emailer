@@ -45,7 +45,7 @@ def check_walmart():
          check if consoles are in stock at walmart
          'This item is out of stock.' message found in class 'prod-blitz-copy-message'
     """
-    
+
     urls = {
         'PS5 Digital Edition': 'https://www.walmart.com/ip/Sony-PlayStation-5-Digital-Edition/493824815',
         'PS5 Console': 'https://www.walmart.com/ip/PlayStation-5-Console/363472942'
@@ -77,6 +77,6 @@ def check_walmart():
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, filename="./logs/main.log", format='%(asctime)s:%(levelname)s:%(message)s')
     scheduler = BlockingScheduler()
-    scheduler.add_job(check_walmart, 'interval', minutes=1)
+    scheduler.add_job(check_walmart, 'interval', minutes=5)
     scheduler.start()
 
