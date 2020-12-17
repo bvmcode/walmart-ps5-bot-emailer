@@ -1,0 +1,5 @@
+requests
+selenium
+yagmail
+apscheduler
+python-dotenv
