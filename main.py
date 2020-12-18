@@ -35,8 +35,7 @@ def email(name, url):
             yag.send(to, subject, content)
         logging.info(f'{urls[key]} - email success')
     except:
-        logging.critical(f'{urls[key]} - email failed'
-
+        logging.critical(f'{urls[key]} - email failed')
 
 
 
@@ -63,20 +62,17 @@ def check_walmart():
             element_present = EC.presence_of_element_located((By.CLASS_NAME, 'prod-blitz-copy-message'))
             WebDriverWait(driver, 10).until(element_present)
             item_message = driver.find_element_by_class_name('prod-blitz-copy-message').text
-            if not 'This item is out of stock.' in item_message:
-                email(key, urls[key])
-                logging.info(f'{urls[key]} - render succeeded - item is available')
-            else:
-                logging.info(f'{urls[key]} - render succeeded - item not available')
+            if 'This item is out of stock.' in item_message:
+                logging.info(f'{urls[key]} - render succeeded with class "prod-blitz-copy-message" - item not available')
         except TimeoutException:
-            logging.critical(f'{urls[key]} - render failed')
+            logging.info(f'{urls[key]} - render time out with class "prod-blitz-copy-message" - item available')
+            email(key, urls[key])
+    
     
     driver.quit()
-
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, filename="./logs/main.log", format='%(asctime)s:%(levelname)s:%(message)s')
     scheduler = BlockingScheduler()
-    scheduler.add_job(check_walmart, 'interval', minutes=5)
+    scheduler.add_job(check_walmart, 'interval', minutes=1)
     scheduler.start()
-
